@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  apache:
+    image: my-apache-image:latest  # Apache HTTP Server image
+    container_name: apache_container
+    ports:
+      - "8080:80"  # Map Apache container port 80 to host port 8080
+    volumes:
+      - ./index.html:/var/www/html/index.html  # Mount custom HTML files (optional)
+    networks:
+      - webnet  # Connect to the custom network (optional)
+
+  nginx:
+    image: the-nginx:latest  # Nginx image
+    container_name: nginx_container
+    ports:
+      - "9090:80"  # Map Nginx container port 80 to host port 9090
+    volumes:
+      - /home/ec2-user/index.html:/var/www/html/index.html  # Mount custom HTML files (optional)
+    networks:
+      - webnet  # Connect to the custom network (optional)
+
+networks:
+  webnet:
+    driver: bridge  # Using a custom bridge network for both containers to communicate
+
